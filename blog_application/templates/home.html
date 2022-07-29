@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Ml Blogs
+{% endblock %}
+{% block content %}
+
+    <h1>Welcome To Blog Application</h1>
+    <div>
+    <ul>
+    {% for post in object_list %}
+        <li><a href="{% url 'articles' post.pk %}">{{ post.title }}</a> - {{ post.author.first_name }}  {{ post.author.last_name }}  - {{ post.publication_date }} - <small>
+            {% if user.is_authenticated %}
+            <a href="{% url 'updatepost' post.pk %}">Edit</a>
+            - <a href="{% url 'deletepost' post.pk %}">delete</a>
+            {% endif %}
+        </small><br>
+        {{ post.body|slice:":200"|safe }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>
+
+{% endblock %}
