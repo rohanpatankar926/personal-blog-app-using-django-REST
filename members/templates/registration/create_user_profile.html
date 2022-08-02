@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Add Category
+create a new blog post
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
+
     <h1>Add Blog Post</h1>
     
     <div class="form-group">
     <table>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %} 
         {{ form.as_p }}
     </table>
         <button class="btn btn-secondary">Post</button>
     </form>
     </div>
-    {% else %}
-    You are not allowed here
+
+{% else %}
+<h3>You are not allowed here</h3>
+
+
 {% endif %}
-
-
 {% endblock %}

@@ -5,17 +5,23 @@ create a new blog post
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
+
     <h1>Add Blog Post</h1>
     
     <div class="form-group">
     <table>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %} 
+        {{ form.media }}
         {{ form.as_p }}
     </table>
         <button class="btn btn-secondary">Post</button>
     </form>
     </div>
+<script>
+    var name="{{ user.id }}";
+    document.getElementById("elder").value=name;
+    </script>
 {% else %}
 <h3>You are not allowed here</h3>
 

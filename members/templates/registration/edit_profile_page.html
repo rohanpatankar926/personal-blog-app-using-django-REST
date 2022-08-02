@@ -1,29 +1,28 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Edit Blog Post
+Edit Profile
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-{% if user.id == post.author.id %}
-    <h1>Update Post</h1>
+{% if user.id == profile.user.id %}
+    <h1>Edit Profile</h1>
     
     <div class="form-group">
     <table>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %} 
-        {{ form.media }}
+      
         {{ form.as_p }}
     </table>
-        <button class="btn btn-secondary">Update</button>
+        <button class="btn btn-secondary">Update Profile</button>
     </form>
     </div>
-    {% else %}
-    You are not allowed here
-{% endif %}
+
 {% else %}
+<h3>You are not allowed here</h3>
 
-You are not allowed here
 {% endif %}
 
+{% endif %}
 {% endblock %}

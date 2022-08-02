@@ -6,7 +6,7 @@ Category list
 {% block content %}
 <h1>Blog Categories</h1>
 {% for item in cat_menu_list %}
-<h4><a class="dropdown-item" href="{% url 'categorylist' item|slugify %}">{{ item }}</a>
+<h4><a class="dropdown-item" href="{% url 'categorylist' item %}">{{ item }}</a>
 {% endfor %}</h4>
 
 {% endblock %}

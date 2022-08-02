@@ -13,12 +13,15 @@ Ml Blogs
         {% for post in object_list %}
         <div class="card">
           <div class="card__header">
-            <img src="https://source.unsplash.com/600x400/?computer" alt="card__image" class="card__image" width="600">
+            <!-- <img src="https://source.unsplash.com/600x400/?computer" alt="card__image" class="card__image" width="600"> -->
+            {% if post.header_image %}
+            <img src="{{ post.header_image.url }}">
+        {% endif %}
           </div>
           <div class="card__body">
             <span class="tag tag-blue">{{ post.category }}</span>
             <h4><a href="{% url 'articles' post.pk %}">{{ post.title }}</a></h4>
-            <p>{{ post.body|slice:":200"|safe }}</p>
+            <p>{{ post.article_snippets }}</p>
           </div>
           <div class="card__footer">
             <div class="user">
@@ -27,13 +30,18 @@ Ml Blogs
                 <h5>{{ post.author.first_name }} {{ post.author.last_name }}</h5>
                 <small>{{ post.publication_date }}</small>
                 {% if user.is_authenticated %}
+                {% if user.id == post.author.id %}
                 <a href="{% url 'updatepost' post.pk %}">Edit</a>
                 - <a href="{% url 'deletepost' post.pk %}">delete</a>
+                {% endif %}
                 {% endif %}
             </div>
             </div>
           </div>
         </div>
         {% endfor %}
+<br>
+<br>
+<br>
 
 {% endblock %}

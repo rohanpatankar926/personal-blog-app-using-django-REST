@@ -5,22 +5,74 @@
 {% endblock %}
 {% block content %}
 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'like.css' %}" />
 
 <body>
     <h3>{{ post.title }}</h3>
     <small>By: {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.publication_date }} 
         {% if user.is_authenticated %}
-        <a href="{% url 'updatepost' post.pk %}">Edit</a>
-        <a href="{% url 'deletepost' post.pk %}">delete</a></small>
-    {% endif %}        
+            {% if user.id == post.author.id %}
+                <a href="{% url 'updatepost' post.pk %}">Edit</a>
+                <a href="{% url 'deletepost' post.pk %}">delete</a></small>
+            {% endif %}
+        {% endif %}        
     <hr>
-
-    {{ post.body|safe }}
+    {% if post.header_image %}
+        <img src="{{ post.header_image.url }}" height="100" width="100">
+    {% endif %}
+        {{ post.body|safe }}
     <br>
     <br>
     <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 
 </body>
 
-</html>
+<br>
+<br>
+<hr>
+<form action="{% url 'like_post' post.pk %}" method="POST">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+    {% if liked %}
+    <button class="like" name="post_id" value="{{ post.id }}" ><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+    <!-- <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger">UnLike</button>  -->
+    {% else %}
+    <!-- <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">Like</button>  -->
+    <button class="dislike" name="post_id" value="{{ post.id }}" ><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
+    {% endif %}
+    {% else %}
+    <a href="{% url 'login' %}">Login to like</a>
+    {% endif %}
+    - {{ total_likes }}
+</form>
+
+<br><br><br>
+<div class="card" style="width: 18rem;">
+    {% if post.author.profile.profile_pic %}
+    <img class="card-img-top" src="{{ post.author.profile.profile_pic.url }}" alt="Card image cap">
+    
+    {% else %}
+    <img class="card-img-top" src="{% static 'blog/images/WhatsApp Image 2022-07-26 at 6.30.02 PM.jpeg' %}" alt="Card image cap">
+
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ post.author.first_name }} {{ post.author.last_name }}</h5>
+      <p class="card-text">{{ post.author.profile.bio }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{ post.author.profile.LinkedIn }}</li>
+      <li class="list-group-item">Dapibus ac facilisis in</li>
+      <li class="list-group-item">Vestibulum at eros</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+
+<img src="{{ post.author.profile_pic }}">
+
+<a href="{% url 'showprofilepage'  post.author.profile.id %}">Profile Page</a> 
+
 {% endblock %}

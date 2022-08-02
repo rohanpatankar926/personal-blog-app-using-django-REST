@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Add Category
+Edit Profile
 {% endblock %}
 {% block content %}
-{% if user.is_authenticated %}
-    <h1>Add Blog Post</h1>
+
+    <h1>Registration</h1>
+    <br>
+    <br>
     
+
+
+    {{ user.profile.bio }}
     <div class="form-group">
     <table>
     <form method="POST">
         {% csrf_token %} 
         {{ form.as_p }}
     </table>
-        <button class="btn btn-secondary">Post</button>
+        <button class="btn btn-secondary">Update Profile</button>
     </form>
     </div>
-    {% else %}
-    You are not allowed here
-{% endif %}
 
 
 {% endblock %}
